@@ -12,8 +12,7 @@
 pacman::p_load("tidyverse", "outbreaks", "corrplot", "RColorBrewer", "rstatix")
 
 ## Setting working directory
-setwd(paste0("C:\Users\64273\Documents\Ankit Patel\Google Drive\Victoria University\Victoria University",
-             "\Victoria University 2020\HLWB303\course material\2021\Lecture 3", sep = ""))
+setwd(paste0("C:/Users/xKayli/Desktop/UNIVERSITY/2021/Tri2/HLWB303_Epidemiology/Lecture_3/Data", sep = ""))
 
 ## Load the diet data
 diet_data <- read_csv("Diet.csv", col_names = TRUE) ##load fat data (252 observations and 19 variables)
@@ -59,9 +58,12 @@ diet_data %>% dplyr::summarise(mean_height = mean(Height, na.rm=TRUE))
 diet_data %>% dplyr::summarise(mean_pre_weight = mean(pre.weight, na.rm=TRUE))
 #mean_pre_weight
 #<dbl>
-#  1            72.5
+#  1            72.3
 
-
+diet_data %>% dplyr::summarise(mean_post_weight = mean(weight6weeks, na.rm=TRUE))
+#  mean_post_weight
+#<dbl>
+#  1             68.3
 
 ## Median of Age, Height and weight
 diet_data %>% dplyr::summarise(median_age = median(Age, na.rm=TRUE))
@@ -72,7 +74,7 @@ diet_data %>% dplyr::summarise(median_age = median(Age, na.rm=TRUE))
 diet_data %>% dplyr::summarise(median_height = median(Height, na.rm=TRUE))
 #median_height
 #<dbl>
-#  1          170.
+#  1          169.
 
 diet_data %>% dplyr::summarise(median_height = median(pre.weight, na.rm=TRUE))
 #median_height
@@ -134,12 +136,11 @@ diet_data %>% dplyr::summarise(variance_height = var(pre.weight, na.rm=TRUE))
 
 ## Distribution of Height and Weight
 ggplot(diet_data, aes(Height)) + 
-  geom_bar(colour = "red", fill = "red") + 
-  geom_density(alpha=20)
+  geom_bar(colour = "red", fill = "red") 
+
 
 ggplot(diet_data, aes(pre.weight)) + 
-  geom_bar(colour = "red", fill = "red") + 
-  geom_density(alpha=20)
+  geom_bar(colour = "red", fill = "red")
 
 
 ## Distribution of Height by gender
@@ -157,12 +158,16 @@ ggplot(diet_data, aes(x = pre.weight, fill = gender_name)) +
 # 3. SLIDE 11 and 12: Corrrelation ----------------------------------------------------------
 ## Correlation between columns
 attach(diet_data)
+
 cor(Age, Height, method = "pearson") ## correlation of 0.0834 correlation
+
+cor(gender, Height, method = "pearson") ##correlation of 0.345 correlation
 
 ## Let's identify the most significant correlations
 names(diet_data)
 diet_data_filter <- diet_data %>% select(-c(Person, gender, Diet, gender_name,
                                             diet_type)) ## filtering out relevant columns
+
 corrplot(cor(diet_data_filter,method="p"), method = "number")
 
 
